@@ -52,8 +52,8 @@ class Battleship {
 
         do {
             console.log();
-            console.log("Player, it's your turn");
-            console.log("Enter coordinates for your shot :");
+            console.log(cliColor.blue("Player, it's your turn"));
+            console.log(cliColor.cyan("Enter coordinates for your shot :"));
             var position = Battleship.ParsePosition(readline.question());
             var isHit = gameController.CheckIsHit(this.enemyFleet, position);
 
@@ -85,11 +85,14 @@ class Battleship {
             telemetryWorker.postMessage({eventName: 'Computer_ShootPosition', properties:  {Position: computerPos.toString(), IsHit: isHit}});
 
             console.log();
-            console.log(`Computer shot in ${computerPos.column}${computerPos.row} and ` + (
-                isHit
-                    ? cliColor.green("has hit your ship !")
-                    : cliColor.red("miss")
-            ));
+            console.log(
+                cliColor.yellow(`Computer shot in ${computerPos.column}${computerPos.row} and `) +
+                (
+                    isHit
+                        ? cliColor.green("has hit your ship !")
+                        : cliColor.red("miss")
+                )
+            );
             if (isHit) {
                 beep();
 
