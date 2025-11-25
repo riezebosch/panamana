@@ -66,6 +66,7 @@ class Battleship {
                 console.log("            -   (\\- |  \\ /  |  /)  -");
                 console.log("                 -\\  \\     /  /-");
                 console.log("                   \\  \\   /  /");
+                console.log();
             }
 
             console.log(isHit ? "Yeah ! Nice hit !" : "Miss");
@@ -117,18 +118,40 @@ class Battleship {
     InitializeMyFleet() {
         this.myFleet = gameController.InitializeShips();
 
-        console.log("Please position your fleet (Game board size is from A to H and 1 to 8) :");
+        this.myFleet[0].addPosition(new position(letters.B, 4));
+        this.myFleet[0].addPosition(new position(letters.B, 5));
+        this.myFleet[0].addPosition(new position(letters.B, 6));
+        this.myFleet[0].addPosition(new position(letters.B, 7));
+        this.myFleet[0].addPosition(new position(letters.B, 8));
 
-        this.myFleet.forEach(function (ship) {
-            console.log();
-            console.log(`Please enter the positions for the ${ship.name} (size: ${ship.size})`);
-            for (var i = 1; i < ship.size + 1; i++) {
-                    console.log(`Enter position ${i} of ${ship.size} (i.e A3):`);
-                    const position = readline.question();
-                    telemetryWorker.postMessage({eventName: 'Player_PlaceShipPosition', properties:  {Position: position, Ship: ship.name, PositionInShip: i}});
-                    ship.addPosition(Battleship.ParsePosition(position));
-            }
-        })
+        this.myFleet[1].addPosition(new position(letters.E, 6));
+        this.myFleet[1].addPosition(new position(letters.E, 7));
+        this.myFleet[1].addPosition(new position(letters.E, 8));
+        this.myFleet[1].addPosition(new position(letters.E, 9));
+
+        this.myFleet[2].addPosition(new position(letters.A, 3));
+        this.myFleet[2].addPosition(new position(letters.B, 3));
+        this.myFleet[2].addPosition(new position(letters.C, 3));
+
+        this.myFleet[3].addPosition(new position(letters.F, 8));
+        this.myFleet[3].addPosition(new position(letters.G, 8));
+        this.myFleet[3].addPosition(new position(letters.H, 8));
+
+        this.myFleet[4].addPosition(new position(letters.C, 5));
+        this.myFleet[4].addPosition(new position(letters.C, 6));
+
+        // console.log("Please position your fleet (Game board size is from A to H and 1 to 8) :");
+        //
+        // this.myFleet.forEach(function (ship) {
+        //     console.log();
+        //     console.log(`Please enter the positions for the ${ship.name} (size: ${ship.size})`);
+        //     for (var i = 1; i < ship.size + 1; i++) {
+        //             console.log(`Enter position ${i} of ${ship.size} (i.e A3):`);
+        //             const position = readline.question();
+        //             telemetryWorker.postMessage({eventName: 'Player_PlaceShipPosition', properties:  {Position: position, Ship: ship.name, PositionInShip: i}});
+        //             ship.addPosition(Battleship.ParsePosition(position));
+        //     }
+        // })
     }
 
     InitializeEnemyFleet() {
