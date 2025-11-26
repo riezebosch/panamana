@@ -11,6 +11,7 @@ class Battleship {
     constructor() {
         this.usedPositions = [];
         this.shots = [];
+        this.computerShots = [];
     }
 
     start() {
@@ -83,6 +84,7 @@ class Battleship {
 
             var computerPos = this.GetRandomPosition();
             this.usedPositions.push(computerPos);
+            this.computerShots.push(computerPos);
             isHit = gameController.CheckIsHit(this.myFleet, computerPos);
 
             telemetryWorker.postMessage({eventName: 'Computer_ShootPosition', properties:  {Position: computerPos.toString(), IsHit: isHit}});
@@ -111,6 +113,10 @@ class Battleship {
 
             console.log("All shots taken:");
             console.log(this.shots.map(x => x.toString()).join(", "));
+            console.log();
+
+            console.log("Computer shots taken:");
+            console.log(this.computerShots.map(x => x.toString()).join(", "));
             console.log();
 
             console.log("Possible shots to take:");
