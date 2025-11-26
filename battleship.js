@@ -8,6 +8,10 @@ const letters = require("./GameController/letters.js");
 let telemetryWorker;
 
 class Battleship {
+    constructor() {
+        this.usedPositions = [];
+    }
+
     start() {
         telemetryWorker = new Worker("./TelemetryClient/telemetryClient.js");   
 
@@ -72,6 +76,7 @@ class Battleship {
             console.log(isHit ? "Yeah ! Nice hit !" : "Miss");
 
             var computerPos = this.GetRandomPosition();
+            this.usedPositions.push(computerPos);
             isHit = gameController.CheckIsHit(this.myFleet, computerPos);
 
             telemetryWorker.postMessage({eventName: 'Computer_ShootPosition', properties:  {Position: computerPos.toString(), IsHit: isHit}});
@@ -103,10 +108,20 @@ class Battleship {
     GetRandomPosition() {
         var rows = 8;
         var lines = 8;
-        var rndColumn = Math.floor((Math.random() * lines));
-        var letter = letters.get(rndColumn + 1);
-        var number = Math.floor((Math.random() * rows));
-        var result = new position(letter, number);
+        var result;
+        var isAlreadyUsed;
+        
+        do {
+            var rndColumn = Math.floor((Math.random() * lines));
+            var letter = letters.get(rndColumn + 1);
+            var number = Math.floor((Math.random() * rows));
+            result = new position(letter, number);
+            
+            isAlreadyUsed = this.usedPositions.some(pos => 
+                pos.column === result.column && pos.row === result.row
+            );
+        } while (isAlreadyUsed);
+        
         return result;
     }
 
