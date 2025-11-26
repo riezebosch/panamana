@@ -82,6 +82,18 @@ class Battleship {
                 : cliColor.red("Miss")
             );
 
+            let sunkShips = this.getSunkShips(this.enemyFleet);
+
+            if (sunkShips.length > 0) {
+                console.log(cliColor.red("Sunk ships: " + sunkShips.map(ship => ship.name + "(" + ship.size + ")").join(", ")));
+            }
+
+            let remainingShips = this.getRemainingShips(this.enemyFleet);
+
+            if (remainingShips.length > 0) {
+                console.log(cliColor.yellow("Remaining ships: " + remainingShips.map(ship => ship.name + "(" + ship.size + ")").join(", ")));
+            }
+
             var computerPos = this.GetRandomPosition();
             this.usedPositions.push(computerPos);
             this.computerShots.push(computerPos);
@@ -237,6 +249,14 @@ class Battleship {
 
         this.enemyFleet[4].addPosition(new position(letters.C, 5));
         this.enemyFleet[4].addPosition(new position(letters.C, 6));
+    }
+
+    getSunkShips(fleet) {
+        return fleet.filter(ship => ship.isSunk());
+    }
+
+    getRemainingShips(fleet) {
+        return fleet.filter(ship => !ship.isSunk());
     }
 }
 
