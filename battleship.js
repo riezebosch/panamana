@@ -10,6 +10,7 @@ let telemetryWorker;
 class Battleship {
     constructor() {
         this.usedPositions = [];
+        this.shots = [];
     }
 
     start() {
@@ -56,6 +57,8 @@ class Battleship {
             console.log(cliColor.cyan("Enter coordinates for your shot :"));
             var position = Battleship.ParsePosition(readline.question());
             var isHit = gameController.CheckIsHit(this.enemyFleet, position);
+
+            this.shots.push(position);
 
             telemetryWorker.postMessage({eventName: 'Player_ShootPosition', properties:  {Position: position.toString(), IsHit: isHit}});
 
@@ -105,6 +108,12 @@ class Battleship {
                 console.log("                 -\\  \\     /  /-");
                 console.log("                   \\  \\   /  /");
             }
+
+            console.log("All shots taken:");
+            console.log(this.shots.map(x => x.toString()).join(", "));
+            console.log();
+
+            // console.log("Possible shots to take:");
         }
         while (true);
     }
