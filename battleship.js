@@ -113,7 +113,9 @@ class Battleship {
             console.log(this.shots.map(x => x.toString()).join(", "));
             console.log();
 
-            // console.log("Possible shots to take:");
+            console.log("Possible shots to take:");
+            console.log(this.GetPossibleShots().map(x => x.toString()).join(", "));
+            console.log();
         }
         while (true);
     }
@@ -142,6 +144,23 @@ class Battleship {
         } while (isAlreadyUsed);
         
         return result;
+    }
+
+    GetPossibleShots() {
+        var possibleShots = [];
+        for (var col = 1; col <= 8; col++) {
+            var letter = letters.get(col);
+            for (var row = 1; row <= 8; row++) {
+                var pos = new position(letter, row);
+                var hasBeenShot = this.shots.some(shot => 
+                    shot.column === pos.column && shot.row === pos.row
+                );
+                if (!hasBeenShot) {
+                    possibleShots.push(pos);
+                }
+            }
+        }
+        return possibleShots;
     }
 
     InitializeGame() {
