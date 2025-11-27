@@ -1,4 +1,4 @@
-name: npm-audit.yml
+name: dependency-check.yml
 
 on:
   push:
@@ -18,9 +18,9 @@ jobs:
           node-version: 22
           cache: 'npm'
 
-      - name: Install dependencies
-        run: npm ci
-
       - name: Run npm audit
         run: npm audit --audit-level=moderate
         continue-on-error: false
+
+      - name: Check outdated packages
+        run: npm outdated || true
