@@ -1,7 +1,7 @@
 name: Run NPM Tests
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
 
 jobs:
     test:
